@@ -19,12 +19,12 @@ Route::get('/', function () {
 /* Route::get('/empleado', function () {
     return view('empleado.index');
 }); */
-Route::get('empleado/create', [EmpleadoController::class, 'create']);
-Route::resource('empleado', EmpleadoController::class);
-Auth::routes();
+Auth::routes(['register' => false, 'reset' => false]);
 
-Route::get('/home1', [EmpleadoController::class, 'index'])->name('home1');
+// Route::get('/home', [EmpleadoController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [EmpleadoController::class, 'index'])->name('home');
+    //    Route::get('empleado/create', [EmpleadoController::class, 'create']);
+    Route::resource('empleado', EmpleadoController::class);
 });
