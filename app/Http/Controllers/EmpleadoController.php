@@ -41,12 +41,12 @@ class EmpleadoController extends Controller
     {
         #$datosEmpleado = request()->all();
         $datosEmpleado = request()->except('_token');
-        if($request->hasFile('Foto')){
-            $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads','public');
+        if ($request->hasFile('Foto')) {
+            $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads', 'public');
         }
         Empleado::insert($datosEmpleado);
         //return response()->json($datosEmpleado);
-        return redirect('empleado')->with('mensaje','Empleado guardado con exito.');
+        return redirect('empleado')->with('mensaje', 'Empleado guardado con exito.');
     }
 
     /**
@@ -83,12 +83,12 @@ class EmpleadoController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $datosEmpleado = request()->except(['_token','_method']);
-        if($request->hasFile('Foto')){
+        $datosEmpleado = request()->except(['_token', '_method']);
+        if ($request->hasFile('Foto')) {
             $empleado = Empleado::findOrFail($id);
-            Storage::delete('public/'.$empleado->Foto);
-            $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads','public');
-        }        
+            Storage::delete('public/' . $empleado->Foto);
+            $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads', 'public');
+        }
 
         Empleado::where('id', '=', $id)->update($datosEmpleado);
         $empleado = Empleado::findOrFail($id);
@@ -105,9 +105,9 @@ class EmpleadoController extends Controller
     {
         //
         $empleado = Empleado::findOrFail($id);
-        if(Storage::delete('public/'.$empleado->Foto)){
+        if (Storage::delete('public/' . $empleado->Foto)) {
             Empleado::destroy($id);
         }
-        return redirect('empleado')->with('mensaje','Empleado Borrado.');
+        return redirect('empleado')->with('mensaje', 'Empleado Borrado.');
     }
 }
