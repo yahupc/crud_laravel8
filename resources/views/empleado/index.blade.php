@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <br>
     @if(Session::has('mensaje'))
-    {{ Session::get('mensaje')}}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('mensaje')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
-    <br>
+   <br>
     <a href="{{ url('empleado/create')}}" class="btn btn-success" jj>Registrar empleado</a>
     <br>
-    <br>
-
     <table class="table table-light">
         <thead class="thead-light">
             <tr>
@@ -49,5 +49,6 @@
         </tbody>
 
     </table>
+    {!! $empleados->links() !!}
 </div>
 @endsection

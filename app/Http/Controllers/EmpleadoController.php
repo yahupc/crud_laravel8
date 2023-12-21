@@ -16,7 +16,7 @@ class EmpleadoController extends Controller
     public function index()
     {
         //
-        $datos['empleados'] = Empleado::paginate(5);
+        $datos['empleados'] = Empleado::paginate(2);
         return view('empleado.index', $datos);
     }
 
@@ -96,16 +96,39 @@ class EmpleadoController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $campos = [
+            'Nombre' => 'required|string|max:100',
+            'ApellidoPaterno' => 'required|string|max:100',
+            'ApellidoMaterno' => 'required|string|max:100',
+            'Correo' => 'required|email',
+        ];
+        $mensaje = [
+            'required' => 'El :attribute es requerido',
+        ];
+        
+        
         $datosEmpleado = request()->except(['_token', '_method']);
         if ($request->hasFile('Foto')) {
             $empleado = Empleado::findOrFail($id);
             Storage::delete('public/' . $empleado->Foto);
             $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads', 'public');
+
+            #Validacion
+            $campos = [
+                'Foto' => 'required|max:10000|mimes:jpeg,png,jpg',
+            ];
+            $mensaje = [
+                'Foto.required' => 'La foto requerida',
+            ];
         }
 
+        $this->validate($request, $campos, $mensaje);
+        
         Empleado::where('id', '=', $id)->update($datosEmpleado);
-        $empleado = Empleado::findOrFail($id);
-        return view('empleado.edit', compact('empleado'));
+        //$empleado = Empleado::findOrFail($id);
+        //return view('empleado.index', $datos);
+        return redirect('empleado')->with('mensaje', 'Empleado Modificado.');
+
     }
 
     /**
