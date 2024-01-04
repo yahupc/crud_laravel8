@@ -2,12 +2,12 @@
 @section('content')
 <div class="container">
     @if(Session::has('mensaje'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('mensaje')}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ Session::get('mensaje')}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
-   <br>
+    <br>
     <a href="{{ url('empleado/create')}}" class="btn btn-success" jj>Registrar empleado</a>
     <br>
     <table class="table table-light">
